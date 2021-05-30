@@ -1,0 +1,27 @@
+Started by user Jitender Kumar
+Running as SYSTEM
+Building on master in workspace /var/lib/jenkins/workspace/GitHub_Webhook
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+The recommended git tool is: NONE
+No credentials specified
+Cloning the remote Git repository
+Cloning repository https://github.com/Jitender46559/batch10.git
+ > git init /var/lib/jenkins/workspace/GitHub_Webhook # timeout=10
+Fetching upstream changes from https://github.com/Jitender46559/batch10.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/Jitender46559/batch10.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/Jitender46559/batch10.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision d5acebd506c6918004777b409b5d52c4118f6383 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f d5acebd506c6918004777b409b5d52c4118f6383 # timeout=10
+Commit message: "Github Webhook"
+First time build. Skipping changelog.
+[GitHub_Webhook] $ /bin/sh -xe /tmp/jenkins6546183400346788935.sh
++ echo Github Webhook Implement Successfully
+Github Webhook Implement Successfully
+Finished: SUCCESS

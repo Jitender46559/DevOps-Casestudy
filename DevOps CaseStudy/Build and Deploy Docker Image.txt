@@ -1,0 +1,205 @@
+Started by user Jitender Kumar
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/Docker Pipeline using Jenkins
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Preparation)
+[Pipeline] echo
+Preparing the Jenkins environment with required tools...
+[Pipeline] tool
+[Pipeline] tool
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (git checkout)
+[Pipeline] echo
+Checking out the code from git repository...
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/Docker Pipeline using Jenkins/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/Jitender46559/batch10.git # timeout=10
+Fetching upstream changes from https://github.com/Jitender46559/batch10.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+ > git fetch --tags --progress -- https://github.com/Jitender46559/batch10.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 1b6832c8dd3c37cd775198f9f252b365ec442968 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 1b6832c8dd3c37cd775198f9f252b365ec442968 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D master # timeout=10
+ > git checkout -b master 1b6832c8dd3c37cd775198f9f252b365ec442968 # timeout=10
+Commit message: "Merge branch 'master' of https://github.com/Jitender46559/batch10"
+ > git rev-list --no-walk 1b6832c8dd3c37cd775198f9f252b365ec442968 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build, Test and Package)
+[Pipeline] echo
+Building the SpringBoot application...
+[Pipeline] sh
++ /var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn clean package
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for org.test:my-test-app:jar:0.0.1-SNAPSHOT
+[WARNING] 'build.plugins.plugin.(groupId:artifactId)' must be unique but found duplicate declaration of plugin org.springframework.boot:spring-boot-maven-plugin @ line 40, column 11
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] ------------------------< org.test:my-test-app >------------------------
+[INFO] Building my-test-app 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.0.0:clean (default-clean) @ my-test-app ---
+[INFO] Deleting /var/lib/jenkins/workspace/Docker Pipeline using Jenkins/target
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:resources (default-resources) @ my-test-app ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.7.0:compile (default-compile) @ my-test-app ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to /var/lib/jenkins/workspace/Docker Pipeline using Jenkins/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.0.1:testResources (default-testResources) @ my-test-app ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /var/lib/jenkins/workspace/Docker Pipeline using Jenkins/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.7.0:testCompile (default-testCompile) @ my-test-app ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.21.0:test (default-test) @ my-test-app ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.0.2:jar (default-jar) @ my-test-app ---
+[INFO] Building jar: /var/lib/jenkins/workspace/Docker Pipeline using Jenkins/target/my-test-app-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.0.3.RELEASE:repackage (default) @ my-test-app ---
+[INFO] 
+[INFO] --- maven-dependency-plugin:3.0.2:unpack (unpack) @ my-test-app ---
+[INFO] Configured Artifact: org.test:my-test-app:0.0.1-SNAPSHOT:jar
+[INFO] Unpacking /var/lib/jenkins/workspace/Docker Pipeline using Jenkins/target/my-test-app-0.0.1-SNAPSHOT.jar to /var/lib/jenkins/workspace/Docker Pipeline using Jenkins/target/dependency with includes "" and excludes ""
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.740 s
+[INFO] Finished at: 2021-05-29T14:23:40Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Sonar Scan)
+[Pipeline] echo
+Scanning application for vulnerabilities...
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Integration test)
+[Pipeline] echo
+Executing Regression Test Suits...
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (publish report)
+[Pipeline] echo
+ Publishing HTML report..
+[Pipeline] publishHTML
+[htmlpublisher] Archiving HTML reports...
+[htmlpublisher] Archiving at PROJECT level /var/lib/jenkins/workspace/Docker Pipeline using Jenkins to /var/lib/jenkins/jobs/Docker Pipeline using Jenkins/htmlreports/HTML_20Report
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+[Pipeline] echo
+Building docker image for SpringBoot application ...
+[Pipeline] sh
++ /var/lib/jenkins/tools/org.jenkinsci.plugins.docker.commons.tools.DockerTool/Docker/bin/docker build -t jitender46559/batch10:1.0 .
+Sending build context to Docker daemon  32.59MB
+
+Step 1/6 : FROM java:8-jdk-alpine
+ ---> 3fd9dd82815c
+Step 2/6 : COPY ./target/my-test-app-0.0.1-SNAPSHOT.jar /usr/app/
+ ---> 6ac6e3f0a512
+Step 3/6 : MAINTAINER jkumar46559@gmail.com
+ ---> Running in 965a949ef045
+Removing intermediate container 965a949ef045
+ ---> bda10f3d3b77
+Step 4/6 : WORKDIR /usr/app
+ ---> Running in 1d308014ac4d
+Removing intermediate container 1d308014ac4d
+ ---> 416b50e5207c
+Step 5/6 : RUN sh -c 'touch my-test-app-0.0.1-SNAPSHOT.jar'
+ ---> Running in c78c7cdf3ed6
+Removing intermediate container c78c7cdf3ed6
+ ---> 55c7d08d3836
+Step 6/6 : ENTRYPOINT ["java", "-jar", "my-test-app-0.0.1-SNAPSHOT.jar"]
+ ---> Running in 0415c75763fa
+Removing intermediate container 0415c75763fa
+ ---> 9f321d6ff9ed
+Successfully built 9f321d6ff9ed
+Successfully tagged jitender46559/batch10:1.0
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push Docker Image to Docker Registry)
+[Pipeline] echo
+Pushing image to docker hub
+[Pipeline] withCredentials
+Masking supported pattern matches of $userName or $userPass
+[Pipeline] {
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [userPass, userName]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ /var/lib/jenkins/tools/org.jenkinsci.plugins.docker.commons.tools.DockerTool/Docker/bin/docker login -u **** -p ****
+Login Succeeded
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [userName]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ /var/lib/jenkins/tools/org.jenkinsci.plugins.docker.commons.tools.DockerTool/Docker/bin/docker push ****/batch10:1.0
+The push refers to repository [docker.io/****/batch10]
+8ac41ea76306: Preparing
+c8f72c0337fc: Preparing
+a1e7033f082e: Preparing
+78075328e0da: Preparing
+9f8566ee5135: Preparing
+a1e7033f082e: Mounted from library/java
+9f8566ee5135: Mounted from library/java
+78075328e0da: Mounted from library/java
+c8f72c0337fc: Pushed
+8ac41ea76306: Pushed
+1.0: digest: sha256:1bc1d50bb052bff1fd42f4732cd6f5048e2ed7369348ef36db9958ffb5e03664 size: 1371
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Clean up)
+[Pipeline] echo
+Cleaning up the workspace...
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/Docker Pipeline using Jenkins
+[Pipeline] {
+[Pipeline] echo
+finally gets executed and end an email notification for every build
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
